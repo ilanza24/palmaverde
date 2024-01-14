@@ -17,7 +17,9 @@ export const Auth = () => {
     };
 
   return (
-    <div>
+    <>
+    {/*
+    <div className='flex justify-center items-center flex-col gap-2 m-auto'>
         <input 
             placeholder='E-mail...'
             type='email '
@@ -30,5 +32,8 @@ export const Auth = () => {
         />
         <button onClick={signIn}>Sign In</button>
     </div>
+    */}
+
+    </>
   )
 }
