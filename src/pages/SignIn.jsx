@@ -39,7 +39,7 @@ function SignIn() {
         <div className='w-full md:w-[70%] lg:w-[40%] lg:ml-20'>
           <form>
             <input 
-              className='w-full px-4 py-2 text-xl text-gray-700 bg-white rounded-3xl border-gray-300 transition ease-in-out mb-6'
+              className='w-full px-4 py-2 text-gray-700 bg-white rounded-3xl border-gray-300 transition ease-in-out mb-6'
               type="email" 
               id='email' 
               value={email}
@@ -49,10 +49,10 @@ function SignIn() {
 
             <div className='relative mb-6'>
               <input 
-                className='w-full px-4 py-2 text-xl text-gray-700 bg-white rounded-3xl border-gray-300 transition ease-in-out'
+                className='w-full px-4 py-2 text-gray-700 bg-white rounded-3xl border-gray-300 transition ease-in-out'
                 type={showPassword ? "text" : "password"} 
                 id='password' 
-                value={email}
+                value={password}
                 onChange={onChange}
                 placeholder='password'
               />

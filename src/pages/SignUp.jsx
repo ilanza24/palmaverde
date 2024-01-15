@@ -3,7 +3,19 @@ import { assets } from '../assets';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import OAuth from '../components/OAuth';
-
+import { 
+  doc, 
+  serverTimestamp, 
+  setDoc 
+} from "firebase/firestore";
+import { 
+  getAuth, 
+  createUserWithEmailAndPassword,
+  updateProfile 
+} from 'firebase/auth';
+import { db } from '../config/firebase';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 function SignUp() {
 
@@ -17,11 +29,40 @@ function SignUp() {
 
   const { name, email, password } = formData;
 
+  const navigate = useNavigate();
+
   function onChange(e){
     setFormData((prevState) => ({
       ...prevState,
       [e.target.id]: e.target.value,
     }))
+  }
+
+  async function onSubmit(e) {
+    e.preventDefault();
+
+    try {
+      const auth = getAuth();
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      updateProfile(auth.currentUser, {
+        displayName: name,
+      });
+      const user = userCredential.user;
+      const formDataCopy = { ...formData };
+      delete formDataCopy.password;
+      formDataCopy.timestamp = serverTimestamp();
+
+      await setDoc(doc(db, "users", user.uid), formDataCopy);
+      // toast.success("Sign up was succeessfull");
+      navigate("/farmer-profil");
+    } catch (error) {
+      toast.error("Oops... Something went wrong with the registration");
+    }
   }
 
   return (
@@ -38,9 +79,9 @@ function SignUp() {
         </div>
 
         <div className='w-full md:w-[70%] lg:w-[40%] lg:ml-20'>
-          <form>
+          <form onSubmit={onSubmit}>
           <input 
-              className='w-full px-4 py-2 text-xl text-gray-700 bg-white rounded-3xl border-gray-300 transition ease-in-out mb-6'
+              className='w-full px-4 py-2 text-gray-700 bg-white rounded-3xl border-gray-300 transition ease-in-out mb-6'
               type="text" 
               id='name' 
               value={name}
@@ -49,7 +90,7 @@ function SignUp() {
             />
 
             <input 
-              className='w-full px-4 py-2 text-xl text-gray-700 bg-white rounded-3xl border-gray-300 transition ease-in-out mb-6'
+              className='w-full px-4 py-2 text-gray-700 bg-white rounded-3xl border-gray-300 transition ease-in-out mb-6'
               type="email" 
               id='email' 
               value={email}
@@ -59,10 +100,10 @@ function SignUp() {
 
             <div className='relative mb-6'>
               <input 
-                className='w-full px-4 py-2 text-xl text-gray-700 bg-white rounded-3xl border-gray-300 transition ease-in-out'
+                className='w-full px-4 py-2 text-gray-700 bg-white rounded-3xl border-gray-300 transition ease-in-out'
                 type={showPassword ? "text" : "password"} 
                 id='password' 
-                value={email}
+                value={password}
                 onChange={onChange}
                 placeholder='password'
               />
