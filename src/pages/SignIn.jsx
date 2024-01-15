@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { assets } from '../assets';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import OAuth from '../components/OAuth';
-
+import { signInWithEmailAndPassword, getAuth } from 'firebase/auth';
+import { toast } from 'react-toastify';
 
 function SignIn() {
 
@@ -16,11 +17,26 @@ function SignIn() {
 
   const { email, password } = formData;
 
+  const navigate = useNavigate();
+
   function onChange(e){
     setFormData((prevState) => ({
       ...prevState,
       [e.target.id]: e.target.value,
     }))
+  }
+
+  async function onSubmit(e){
+    e.preventDefault()
+    try {
+      const auth = getAuth()
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      if(userCredential.user){
+        navigate("/farmer-profil")
+      }
+    } catch (error) {
+      toast.error("Bad user credentials");
+    }
   }
 
   return (
@@ -37,7 +53,7 @@ function SignIn() {
         </div>
 
         <div className='w-full md:w-[70%] lg:w-[40%] lg:ml-20'>
-          <form>
+          <form onSubmit={onSubmit}>
             <input 
               className='w-full px-4 py-2 text-gray-700 bg-white rounded-3xl border-gray-300 transition ease-in-out mb-6'
               type="email" 
