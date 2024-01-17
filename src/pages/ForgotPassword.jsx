@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import { assets } from '../assets';
-import { Link } from 'react-router-dom';
-import OAuth from '../components/OAuth';
 import { toast } from 'react-toastify';
 import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 
@@ -27,14 +25,14 @@ function ForgotPassword() {
 
   return (
 
-    <section className='bg-primary-green w-full h-lvh'>
-      <h2 className='text-3xl pt-6 font-bold'>Forgot Password</h2>
+    <section className='bg-background w-full h-lvh text-font font-body flex flex-col justify-center'>
+      <h2 className='font-body text-3xl font-bold p-4'>Forgot your Password?</h2>
 
       <div className='flex justify-center flex-wrap items-center px-6 py-12 max-w-6xl mx-auto '>
   
         <div className='md:w-[70%] lg:w-[50%] mb-12 md:mb-6'>
           <img 
-            src={assets.home_women} alt="home" 
+            src={assets.forgot_pw} alt="forgot password" 
             className='w-full'
           />
         </div>
@@ -42,43 +40,19 @@ function ForgotPassword() {
         <div className='w-full md:w-[70%] lg:w-[40%] lg:ml-20'>
           <form onSubmit={onSubmit}>
             <input 
-              className='w-full px-4 py-2 text-gray-700 bg-white rounded-3xl border-gray-300 transition ease-in-out mb-6'
+              className='font-body text-sm w-full px-4 py-2 text-font-middle rounded-3xl bg-[#FEFDFC] transition ease-in-out mb-6 focus:border-[#FEFDFC]'
               type="email" 
               id='email' 
               value={email}
               onChange={onChange}
               placeholder='email'
             />
-
-          
-            <div className='flex justify-center items-center flex-col'>
-              <p>Don't have a account?
-                <Link to="/sign-up">Register</Link>
-              </p>
-              <p>
-                <Link 
-                  className='cursor-pointer'
-                  to="/sign-in">Sign In</Link>
-              </p>
-            </div>
             <button 
-              className='w-full font-medium px-7 py-3 rounded-3xl bg-white'
+              className='btn-peach'
               type='submit'>
-                Send Reset Password
+                Reset Password
             </button>
-            <div 
-              className='my-4 flex items-center 
-              before:border-t 
-              before:flex-1 
-              before:border-gray-300
-              after:border-t
-              after:flex-1
-              after:border-gray-300'>
-              <p className='text-sm text-center mx-4'>or sign in with</p>
-            </div>
-            <OAuth/>
           </form>
-          
         </div>
       </div>
     </section>

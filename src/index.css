@@ -2,4 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-
+.btn-peach{
+    padding: 0.5rem 2.5rem;
+    border-radius: 2.5625rem;
+    background: linear-gradient(174deg, #EC836A -6.61%, #ED8E78 66.26%, #F1A593 132.52%);
+    box-shadow: 0px 2px 4px 0px rgba(227, 223, 218, 0.48);
+    width: 100%;
+    color: #fff;
+    letter-spacing: 0.05rem;
+    font-size: 1rem;
+}

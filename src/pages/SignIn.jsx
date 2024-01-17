@@ -40,32 +40,29 @@ function SignIn() {
   }
 
   return (
-    <section className='bg-primary-green w-full h-lvh'>
-      <h2 className='text-3xl pt-6 font-bold'>Sign In</h2>
+    <section className='bg-primary '>
+      <div className='flex justify-around items-center py-4 mb-8'>
+        <h2 className='font-body text-5xl font-semibold p-4 text-font-light'>Sign <br/>In</h2>
+        <img 
+          className='w-[10rem] drop-shadow-md'
+          src={assets.fruit_basket} 
+          alt="palma verde fruit basket" />
+      </div>
 
-      <div className='flex justify-center flex-wrap items-center px-6 py-12 max-w-6xl mx-auto '>
-  
-        <div className='md:w-[70%] lg:w-[50%] mb-12 md:mb-6'>
-          <img 
-            src={assets.home_women} alt="home" 
-            className='w-full'
-          />
-        </div>
-
-        <div className='w-full md:w-[70%] lg:w-[40%] lg:ml-20'>
+      <div className='bg-font-light rounded-t-[1.85rem] flex flex-col justify-center items-center px-6 py-12'>
+        <div className='w-full md:w-[70%] lg:w-[40%] lg:ml-20 '>
           <form onSubmit={onSubmit}>
             <input 
-              className='w-full px-4 py-2 text-gray-700 bg-white rounded-3xl border-gray-300 transition ease-in-out mb-6'
+              className='font-body text-sm w-full px-4 py-2 text-font-middle rounded-3xl bg-[#F9F5F1] transition ease-in-out mb-6 focus:border-[#FEFDFC]'
               type="email" 
               id='email' 
               value={email}
               onChange={onChange}
               placeholder='email'
             />
-
             <div className='relative mb-6'>
               <input 
-                className='w-full px-4 py-2 text-gray-700 bg-white rounded-3xl border-gray-300 transition ease-in-out'
+                className='font-body text-sm w-full px-4 py-2 text-font-middle rounded-3xl bg-[#F9F5F1] transition ease-in-out mb-6 focus:border-[#FEFDFC]'
                 type={showPassword ? "text" : "password"} 
                 id='password' 
                 value={password}
@@ -84,38 +81,39 @@ function SignIn() {
                 />
               )}
             </div>
-                {/* hae to change the signin signup section*/}
-            <div className='flex justify-center items-center flex-col'>
-              <p>Don't have a account?
-                <Link to="/sign-up">Register</Link>
-              </p>
-              <p>
+            <button type='submit' className='btn-peach mb-2'>Sign In</button>
+            <div>
+            <p className='text-right text-sm text-font-middle py-2'>
                 <Link 
                   className='cursor-pointer'
-                  to="/forgot-password">Forgot password?</Link>
+                  to="/forgot-password">Forgot password?
+                </Link>
+              </p>
+           </div>
+            <div className='my-4 flex items-center 
+                  before:border-t 
+                  before:flex-1 
+                  before:text-font-middle
+                  after:border-t
+                  after:flex-1
+                  after:text-font-middle'>
+              <p className='text-sm text-center mx-4 text-font-middle'>or sign in with</p>
+            </div>
+            <div className='flex gap-12 justify-center py-4'>
+              <OAuth/>
+              <OAuth/>
+              <OAuth/>
+            </div>
+
+            <div className='mt-6'>
+              <p className='text-left text-sm text-font-middle'>Don't have a account?
+                <Link to="/sign-up"> <span className='font-bold'>Sign Up</span></Link>
               </p>
             </div>
-            <button 
-              className='w-full font-medium px-7 py-3 rounded-3xl bg-white'
-              type='submit'>
-                Sign In
-            </button>
-            <div 
-              className='my-4 flex items-center 
-              before:border-t 
-              before:flex-1 
-              before:border-gray-300
-              after:border-t
-              after:flex-1
-              after:border-gray-300'>
-              <p className='text-sm text-center mx-4'>or sign in with</p>
-            </div>
-            <OAuth/>
           </form>
           
         </div>
       </div>
-
     </section>
   )
 }

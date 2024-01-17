@@ -6,6 +6,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import FarmerProfil from './pages/FarmerProfil';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import UploadProduct from './pages/UploadProduct';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/sign-up" element={<SignUp/>} />
           <Route path="/forgot-password" element={<ForgotPassword/>} />
           <Route path="/farmer-profil" element={<FarmerProfil/>} />
+          <Route path="/upload-product" element={<UploadProduct/>} />
         </Routes>
       </Router>
       <ToastContainer

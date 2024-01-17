@@ -38,7 +38,7 @@ function OAuth() {
           type="button"
           onClick={onGoogleClick}
           className="rounded-full drop-shadow-2xl shadow-gray-500/50">
-            <FcGoogle size={45} className="mt-2"/>
+            <FcGoogle size={35} className="mt-2 drop-shadow-sm"/>
         </button>
     </div>
   )
