@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import OAuth from '../components/OAuth';
 import { signInWithEmailAndPassword, getAuth } from 'firebase/auth';
 import { toast } from 'react-toastify';
+import SignInUp from '../components/SignInUp';
 
 function SignIn() {
 
@@ -32,7 +33,7 @@ function SignIn() {
       const auth = getAuth()
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       if(userCredential.user){
-        navigate("/farmer-profil")
+        navigate("/upload-product")
       }
     } catch (error) {
       toast.error("Bad user credentials");
@@ -40,8 +41,8 @@ function SignIn() {
   }
 
   return (
-    <section className='bg-primary '>
-      <div className='flex justify-around items-center py-4 mb-8'>
+    <section className='bg-primary'>
+      <div className='flex justify-around items-center py-4 mb-8 max-w-[30rem] mx-auto'>
         <h2 className='font-body text-5xl font-semibold p-4 text-font-light'>Sign <br/>In</h2>
         <img 
           className='w-[10rem] drop-shadow-md'
@@ -49,20 +50,39 @@ function SignIn() {
           alt="palma verde fruit basket" />
       </div>
 
-      <div className='bg-font-light rounded-t-[1.85rem] flex flex-col justify-center items-center px-6 py-12'>
-        <div className='w-full md:w-[70%] lg:w-[40%] lg:ml-20 '>
+      <div className='bg-font-light rounded-t-[1.85rem] px-6 py-12'>
+      <SignInUp/>
+        <div className='max-w-[30rem] mx-auto'>
           <form onSubmit={onSubmit}>
-            <input 
-              className='font-body text-sm w-full px-4 py-2 text-font-middle rounded-3xl bg-[#F9F5F1] transition ease-in-out mb-6 focus:border-[#FEFDFC]'
-              type="email" 
-              id='email' 
-              value={email}
-              onChange={onChange}
-              placeholder='email'
-            />
-            <div className='relative mb-6'>
+            <div className='mb-6'>
+              <label 
+                htmlFor="email"
+                className='text-font-middle px-2 py-2 font-light'
+              >
+                Email
+              </label>
               <input 
-                className='font-body text-sm w-full px-4 py-2 text-font-middle rounded-3xl bg-[#F9F5F1] transition ease-in-out mb-6 focus:border-[#FEFDFC]'
+                className='font-body text-sm w-full my-2 px-4 py-2 text-font-middle
+                rounded-3xl bg-[#F9F5F1] transition ease-in-out focus:border-[#FEFDFC]'
+                type="email" 
+                id='email' 
+                value={email}
+                onChange={onChange}
+                placeholder='email'
+              />
+            </div>
+            
+            <div className='mb-6'>
+              <label 
+                htmlFor="password"
+                className='text-font-middle px-2 py-2 font-light'
+              >
+                Password
+              </label>
+              <div className='relative mb-6'>
+              <input 
+                className='font-body text-sm w-full my-2 px-4 py-2 text-font-middle 
+                rounded-3xl bg-[#F9F5F1] transition ease-in-out focus:border-[#FEFDFC]'
                 type={showPassword ? "text" : "password"} 
                 id='password' 
                 value={password}
@@ -71,26 +91,28 @@ function SignIn() {
               />
               {showPassword ? (
                 <FaEyeSlash 
-                  className='absolute right-4 top-3 text-xl cursor-pointer' 
+                  className='absolute right-4 top-3 text-xl cursor-pointer text-font-middle' 
                   onClick={() => setShowPassword((prevState) => !prevState)}
                 />
               ):(
                 <FaEye 
-                  className='absolute right-4 top-3 text-xl cursor-pointer' 
+                  className='absolute right-4 top-3 text-xl cursor-pointer text-font-middle' 
                   onClick={() => setShowPassword((prevState) => !prevState)}
                 />
               )}
             </div>
-            <button type='submit' className='btn-peach mb-2'>Sign In</button>
+            </div>
+            
+            <button type='submit' className='button-green mb-2'>Sign In</button>
             <div>
-            <p className='text-right text-sm text-font-middle py-2'>
+            <p className='text-center text-sm text-font-middle py-2'>
                 <Link 
-                  className='cursor-pointer'
+                  className='cursor-pointer underline'
                   to="/forgot-password">Forgot password?
                 </Link>
               </p>
            </div>
-            <div className='my-4 flex items-center 
+            <div className='my-4 max-w-xs m-auto flex items-center 
                   before:border-t 
                   before:flex-1 
                   before:text-font-middle
@@ -104,14 +126,7 @@ function SignIn() {
               <OAuth/>
               <OAuth/>
             </div>
-
-            <div className='mt-6'>
-              <p className='text-left text-sm text-font-middle'>Don't have a account?
-                <Link to="/sign-up"> <span className='font-bold'>Sign Up</span></Link>
-              </p>
-            </div>
           </form>
-          
         </div>
       </div>
     </section>

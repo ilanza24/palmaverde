@@ -16,6 +16,7 @@ import {
 import { db } from '../config/firebase';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import SignInUp from '../components/SignInUp';
 
 function SignUp() {
 
@@ -25,11 +26,11 @@ function SignUp() {
     name: "",
     email: "",
     password: "",
-    adress: "",
+    address: "",
 
   }); 
 
-  const { name, email, password, adress } = formData;
+  const { name, email, password, address } = formData;
 
   const navigate = useNavigate();
 
@@ -61,7 +62,7 @@ function SignUp() {
 
       await setDoc(doc(db, "users", user.uid), formDataCopy);
       // toast.success("Sign up was succeessfull");
-      navigate("/farmer-profil");
+      navigate("/upload-product");
     } catch (error) {
       toast.error("Oops... Something went wrong with the registration");
     }
@@ -69,7 +70,7 @@ function SignUp() {
 
   return (
     <section className='bg-primary'>
-      <div className='flex justify-around items-center py-4 mb-8'>
+      <div className='flex justify-around items-center py-4 mb-8 max-w-[30rem] mx-auto'>
         <h2 className='font-body text-5xl font-semibold p-4 text-font-light'>Sign <br/>Up</h2>
         <img 
           className='w-[10rem] drop-shadow-md'
@@ -78,56 +79,89 @@ function SignUp() {
       </div>
 
       <div className='bg-font-light rounded-t-[1.85rem] px-6 py-12'>
-        <div className='w-full md:w-[70%] lg:w-[40%] lg:ml-20'>
+      <SignInUp/>
+        <div className='max-w-[30rem] mx-auto'>
           <form onSubmit={onSubmit}>
-          <input 
-              className='font-body text-sm w-full px-4 py-2 text-font-middle rounded-3xl bg-[#F9F5F1] transition ease-in-out mb-6 focus:border-[#FEFDFC]'
-              type="text" 
-              id='name' 
-              value={name}
-              onChange={onChange}
-              placeholder='full name'
-            />
-            <input 
-              className='font-body text-sm w-full px-4 py-2 text-font-middle rounded-3xl bg-[#F9F5F1] transition ease-in-out mb-6 focus:border-[#FEFDFC]'
-              type="email" 
-              id='email' 
-              value={email}
-              onChange={onChange}
-              placeholder='email'
-            />
-            <div className='relative mb-6'>
-            <input 
-              className='font-body text-sm w-full px-4 py-2 text-font-middle rounded-3xl bg-[#F9F5F1] transition ease-in-out focus:border-[#FEFDFC]'
-              type={showPassword ? "text" : "password"} 
-              id='password' 
-              value={password}
-              onChange={onChange}
-              placeholder='password'
-            />
-              {showPassword ? (
-                <FaEyeSlash 
-                  className='absolute right-4 top-2.5 text-xl cursor-pointer text-font' 
-                  onClick={() => setShowPassword((prevState) => !prevState)}
-                />
-              ):(
-                <FaEye 
-                  className='absolute right-4 top-2.5 text-xl cursor-pointer text-font' 
-                  onClick={() => setShowPassword((prevState) => !prevState)}
-                />
-              )}
-            </div>
-            <input 
-              className='font-body text-sm w-full px-4 py-2 text-font-middle rounded-3xl bg-[#F9F5F1] transition ease-in-out mb-6 focus:border-[#FEFDFC]'
-              type="text" 
-              id='adress' 
-              value={adress}
-              onChange={onChange}
-              placeholder='adress'
-            />
-            <button type='submit' className='btn-peach mb-2'>Sign Up</button>
 
-            <div className='my-4 flex items-center 
+            <div className='mb-4'>
+              <label 
+                htmlFor="full name"
+                className='text-font-middle px-2 py-2 font-light'
+              >
+                Full Name
+              </label>
+              <input 
+                className='font-body text-sm w-full my-2 px-4 py-2 text-font-middle 
+                rounded-3xl bg-[#F9F5F1] transition ease-in-out focus:border-[#FEFDFC]'
+                type="text" 
+                id='name' 
+                value={name}
+                onChange={onChange}
+              />
+            </div>
+            <div className='mb-4'>
+              <label 
+                htmlFor="email"
+                className='text-font-middle px-2 py-2 font-light'
+              >  
+                Email
+              </label>
+              <input 
+                className='font-body text-sm w-full my-2 px-4 py-2 text-font-middle 
+                rounded-3xl bg-[#F9F5F1] transition ease-in-out focus:border-[#FEFDFC]'
+                type="email" 
+                id='email' 
+                value={email}
+                onChange={onChange}
+              />
+            </div>
+            <div className='mb-4'>
+              <label 
+                htmlFor="address"
+                className='text-font-middle px-2 py-2 font-light'
+              >
+                Home Address
+              </label>
+              <input 
+                className='font-body text-sm w-full my-2 px-4 py-2 text-font-middle 
+                rounded-3xl bg-[#F9F5F1] transition ease-in-out focus:border-[#FEFDFC]'
+                type="text" 
+                id='adress' 
+                value={address}
+                onChange={onChange}
+              />
+            </div>
+            <div className='mb-4'>
+              <label 
+                htmlFor="password"
+                className='text-font-middle px-2 py-2 font-light'>
+                Password
+              </label>
+              <div className='relative mb-6'>
+              <input 
+                className='mb-6 font-body text-sm w-full my-2 px-4 py-2 text-font-middle 
+                rounded-3xl bg-[#F9F5F1] transition ease-in-out focus:border-[#FEFDFC]'
+                type={showPassword ? "text" : "password"} 
+                id='password' 
+                value={password}
+                onChange={onChange}
+              />
+              {showPassword ? (
+                  <FaEyeSlash 
+                    className='absolute right-4 top-3.5 text-xl cursor-pointer text-font-middle' 
+                    onClick={() => setShowPassword((prevState) => !prevState)}
+                  />
+                ):(
+                  <FaEye 
+                    className='absolute right-4 top-3.5 text-xl cursor-pointer text-font-middle' 
+                    onClick={() => setShowPassword((prevState) => !prevState)}
+                  />
+                )}
+              </div>
+            </div>  
+  
+            <button type='submit' className='button-green mb-2'>Sign Up</button>
+            <div className='my-4 flex items-center max-w-xs m-auto
                   before:border-t 
                   before:flex-1 
                   before:text-font-middle
@@ -140,11 +174,6 @@ function SignUp() {
               <OAuth/>
               <OAuth/>
               <OAuth/>
-            </div>
-            <div className='mt-6'>
-              <p className='text-left text-sm text-font-middle'>Have a account?
-                <Link to="/sign-in"> <span className='font-bold'>Sign In</span></Link>
-              </p>
             </div>
           </form>
         </div>

@@ -5,15 +5,15 @@ module.exports = {
   ],
   theme: {
     fontFamily: {
-      'title': ['"Righteous"'],
+      'title': ['"Italianno", cursive'],
       'body': ['"Poppins"'],
     },
     colors: {
-      'background': '#F7F3EF',
+      'background-green': '#536E47',
       'font': '#373737',
       'font-light': '#FEFDFC',
       'font-middle': '#626262',
-      'primary': '#2C6246',
+      'primary': '#536E47',
       'secondary': '#E86C4F',
     },
     extend: {
@@ -32,8 +32,6 @@ module.exports = {
       }
     },
   },
-  plugins: [
-    require('@tailwindcss/forms'),
-  ],
+  plugins: [],
 }
 
