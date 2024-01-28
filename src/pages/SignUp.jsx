@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { assets } from '../assets';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link } from 'react-router-dom';
 import OAuth from '../components/OAuth';
 import { 
   doc, 
