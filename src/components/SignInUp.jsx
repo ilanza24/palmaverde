@@ -6,7 +6,6 @@ function SignInUp() {
   const [activeButton, setActiveButton] = useState('');
 
   return (
-    <>
       <div className='max-w-[30rem] mx-auto mb-6'>
         <div className="button-green flex justify-between items-center">
             <NavLink 
@@ -26,7 +25,6 @@ function SignInUp() {
             </NavLink>
         </div>
       </div>
-    </>
   );
 }
 

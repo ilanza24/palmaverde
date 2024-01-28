@@ -5,7 +5,7 @@ import { db } from '../config/firebase';
 import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
-function OAuth() {
+function OAuthCustomer() {
   const navigate = useNavigate();
 
   async function onGoogleClick(){
@@ -26,7 +26,7 @@ function OAuth() {
           timestamp: serverTimestamp(),
         });
       }
-      navigate("/farmer-profil");
+      navigate("/upload-product");
     } catch (error) {
       toast.error("Could not authorize with Google");
       
@@ -44,4 +44,4 @@ function OAuth() {
   )
 }
 
-export default OAuth
+export default OAuthCustomer

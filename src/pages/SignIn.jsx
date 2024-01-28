@@ -91,12 +91,12 @@ function SignIn() {
               />
               {showPassword ? (
                 <FaEyeSlash 
-                  className='absolute right-4 top-3 text-xl cursor-pointer text-font-middle' 
+                  className='absolute right-4 top-4 text-xl cursor-pointer text-font-middle' 
                   onClick={() => setShowPassword((prevState) => !prevState)}
                 />
               ):(
                 <FaEye 
-                  className='absolute right-4 top-3 text-xl cursor-pointer text-font-middle' 
+                  className='absolute right-4 top-4 text-xl cursor-pointer text-font-middle' 
                   onClick={() => setShowPassword((prevState) => !prevState)}
                 />
               )}
