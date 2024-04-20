@@ -57,7 +57,8 @@ function SignUp() {
       // toast.success("Sign up was succeessfull");
       navigate("/upload-product");
     } catch (error) {
-      toast.error("Oops... Something went wrong with the registration");
+      console.log("error", error);
+      toast.error("Oops... Something went wrong with the registration", error);
     }
   }
 
@@ -122,7 +123,7 @@ function SignUp() {
                 className="font-body text-sm w-full my-2 px-4 py-2 text-font-middle 
                 rounded-3xl bg-[#F9F5F1] transition ease-in-out focus:border-[#FEFDFC]"
                 type="text"
-                id="adress"
+                id="address"
                 value={address}
                 onChange={onChange}
               />

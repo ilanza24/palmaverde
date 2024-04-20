@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import app from "../config/firebase";
 import { toast } from "react-toastify";
 import { getDatabase, ref, set, push } from "firebase/database";
+import { getAuth } from "firebase/auth";
 
 const FarmerAddToProductList = () => {
   const [productName, setProductName] = useState("");
   const [price, setPrice] = useState(0);
   const [qty, setQty] = useState(0);
   const [unit, setUnit] = useState("Kg");
-
+  const auth = getAuth();
+  const currentUser = auth.currentUser;
   const saveToDB = async (event) => {
     event.preventDefault();
     if (
@@ -21,25 +23,29 @@ const FarmerAddToProductList = () => {
       toast.error("Inavlid inputs. Please try again");
       return;
     }
-    const db = getDatabase(app);
-    const newDocRef = push(ref(db, "Products"));
 
-    set(newDocRef, {
-      productName: productName,
-      quantity: qty,
-      price: price,
-      unit: unit,
-    })
-      .then(() => {
-        setProductName("");
-        setQty(0);
-        setPrice(0);
-        setUnit(0);
-        toast("Product added successfully");
+    if (currentUser) {
+      const userId = currentUser.uid;
+      const db = getDatabase(app);
+      const farmerRf = push(ref(db, `Farmers/${userId}/Products`));
+
+      set(farmerRf, {
+        productName: productName,
+        quantity: qty,
+        price: price,
+        unit: unit,
       })
-      .catch((e) => {
-        toast.error("Something went wrong");
-      });
+        .then(() => {
+          setProductName("");
+          setQty(0);
+          setPrice(0);
+          setUnit(0);
+          toast("Product added successfully");
+        })
+        .catch((e) => {
+          toast.error("Something went wrong");
+        });
+    }
   };
   return (
     <>

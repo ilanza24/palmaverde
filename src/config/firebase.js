@@ -15,11 +15,10 @@ const firebaseConfig = {
   //adding database url
   databaseURL: process.env.REACT_APP_FIREBASE_DB_URL,
 };
-console.log("databaseURL", firebaseConfig.databaseURL);
+console.log("Project", firebaseConfig.projectId);
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 export const auth = getAuth(app);
 export const db = getFirestore();
 
 export default app;
-

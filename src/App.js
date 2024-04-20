@@ -8,6 +8,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import UploadProduct from "./pages/UploadProduct";
 import FarmerInventoryManager from "./pages/FarmerInventoryManager";
+import FarmerSignUp from "./pages/FarmerSignUp";
+import FarmerSignIn from "./pages/FarmerSignIn";
 
 function App() {
   return (
@@ -21,9 +23,11 @@ function App() {
           <Route path="/farmer-profil" element={<FarmerProfil />} />
           <Route path="/upload-product" element={<UploadProduct />} />
           <Route
-            path="/farmer-manage-inventory"
+            path="/farmer-manage-inventory/:userId"
             element={<FarmerInventoryManager />}
           />
+          <Route path="/farmer-sign-up" element={<FarmerSignUp />} />
+          <Route path="/farmer-sign-in" element={<FarmerSignIn />} />
         </Routes>
       </Router>
       <ToastContainer
