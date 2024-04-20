@@ -1,6 +1,6 @@
 import React from "react";
-import FarmerAddToProductList from "../components/FarmerAddToProductList";
-import FarmerStockList from "../components/FarmerStockList";
+import FarmerAddToProductList from "../../components/Farmer/FarmerAddToProductList";
+import FarmerStockList from "../../components/Farmer/FarmerStockList";
 
 const FarmerInventoryManager = () => {
   return (

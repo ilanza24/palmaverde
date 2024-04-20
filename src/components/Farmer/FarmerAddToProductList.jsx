@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import app from "../config/firebase";
+import app from "../../config/firebase";
 import { toast } from "react-toastify";
 import { getDatabase, ref, set, push } from "firebase/database";
 import { getAuth } from "firebase/auth";

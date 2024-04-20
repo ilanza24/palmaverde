@@ -1,28 +1,20 @@
 import { useState } from "react";
-import { assets } from "../assets";
+import { assets } from "../../assets";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-// import OAuth from '../components/OAuth';
-import { doc, serverTimestamp, setDoc } from "firebase/firestore";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  updateProfile,
-} from "firebase/auth";
-import { db } from "../config/firebase";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+//import OAuth from "../components/OAuth";
+import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
 import { toast } from "react-toastify";
-import FarmerSignInUp from "../components/FarmerSignInUp";
+import FarmerSignInUp from "../../components/Farmer/FarmerSignInUp";
 
-function FarmerSignUp() {
+function FarmerSignIn() {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    name: "",
     email: "",
     password: "",
-    address: "",
   });
 
-  const { name, email, password, address } = formData;
+  const { email, password } = formData;
 
   const navigate = useNavigate();
 
@@ -35,37 +27,30 @@ function FarmerSignUp() {
 
   async function onSubmit(e) {
     e.preventDefault();
-
     try {
       const auth = getAuth();
-      const userCredential = await createUserWithEmailAndPassword(
+      const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
         password
       );
-
-      updateProfile(auth.currentUser, {
-        displayName: name,
-      });
-      const user = userCredential.user;
-      const formDataCopy = { ...formData };
-      delete formDataCopy.password;
-      formDataCopy.timestamp = serverTimestamp();
-      await setDoc(doc(db, "users", user.uid), formDataCopy);
-      const userId = user.uid;
-      navigate(`/farmer-manage-inventory/${userId}`);
+      if (userCredential.user) {
+        const userId = auth.currentUser.uid;
+        navigate(`/farmer-manage-inventory/${userId}`);
+      }
     } catch (error) {
-      console.log("error", error);
-      toast.error("Oops... Something went wrong with the registration", error);
+      console.log("sign", error);
+      toast.error("Bad user credentials");
     }
   }
 
   return (
     <section className="bg-primary">
+      <h1>Farmer SignIn</h1>
       <div className="flex justify-around items-center py-4 mb-8 max-w-[30rem] mx-auto">
         <h2 className="font-body text-5xl font-semibold p-4 text-font-light">
           Sign <br />
-          Up For Farmer
+          In
         </h2>
         <img
           className="w-[10rem] drop-shadow-md"
@@ -78,23 +63,7 @@ function FarmerSignUp() {
         <FarmerSignInUp />
         <div className="max-w-[30rem] mx-auto">
           <form onSubmit={onSubmit}>
-            <div className="mb-4">
-              <label
-                htmlFor="full name"
-                className="text-font-middle px-2 py-2 font-light"
-              >
-                Full Name
-              </label>
-              <input
-                className="font-body text-sm w-full my-2 px-4 py-2 text-font-middle 
-                rounded-3xl bg-[#F9F5F1] transition ease-in-out focus:border-[#FEFDFC]"
-                type="text"
-                id="name"
-                value={name}
-                onChange={onChange}
-              />
-            </div>
-            <div className="mb-4">
+            <div className="mb-6">
               <label
                 htmlFor="email"
                 className="text-font-middle px-2 py-2 font-light"
@@ -102,31 +71,17 @@ function FarmerSignUp() {
                 Email
               </label>
               <input
-                className="font-body text-sm w-full my-2 px-4 py-2 text-font-middle 
+                className="font-body text-sm w-full my-2 px-4 py-2 text-font-middle
                 rounded-3xl bg-[#F9F5F1] transition ease-in-out focus:border-[#FEFDFC]"
                 type="email"
                 id="email"
                 value={email}
                 onChange={onChange}
+                placeholder="email"
               />
             </div>
-            <div className="mb-4">
-              <label
-                htmlFor="address"
-                className="text-font-middle px-2 py-2 font-light"
-              >
-                Home Address
-              </label>
-              <input
-                className="font-body text-sm w-full my-2 px-4 py-2 text-font-middle 
-                rounded-3xl bg-[#F9F5F1] transition ease-in-out focus:border-[#FEFDFC]"
-                type="text"
-                id="address"
-                value={address}
-                onChange={onChange}
-              />
-            </div>
-            <div className="mb-4">
+
+            <div className="mb-6">
               <label
                 htmlFor="password"
                 className="text-font-middle px-2 py-2 font-light"
@@ -135,21 +90,22 @@ function FarmerSignUp() {
               </label>
               <div className="relative mb-6">
                 <input
-                  className="mb-6 font-body text-sm w-full my-2 px-4 py-2 text-font-middle 
+                  className="font-body text-sm w-full my-2 px-4 py-2 text-font-middle 
                 rounded-3xl bg-[#F9F5F1] transition ease-in-out focus:border-[#FEFDFC]"
                   type={showPassword ? "text" : "password"}
                   id="password"
                   value={password}
                   onChange={onChange}
+                  placeholder="password"
                 />
                 {showPassword ? (
                   <FaEyeSlash
-                    className="absolute right-4 top-3.5 text-xl cursor-pointer text-font-middle"
+                    className="absolute right-4 top-4 text-xl cursor-pointer text-font-middle"
                     onClick={() => setShowPassword((prevState) => !prevState)}
                   />
                 ) : (
                   <FaEye
-                    className="absolute right-4 top-3.5 text-xl cursor-pointer text-font-middle"
+                    className="absolute right-4 top-4 text-xl cursor-pointer text-font-middle"
                     onClick={() => setShowPassword((prevState) => !prevState)}
                   />
                 )}
@@ -157,10 +113,20 @@ function FarmerSignUp() {
             </div>
 
             <button type="submit" className="button-green mb-2">
-              Sign Up
+              Sign In
             </button>
+            <div>
+              <p className="text-center text-sm text-font-middle py-2">
+                <Link
+                  className="cursor-pointer underline"
+                  to="/forgot-password"
+                >
+                  Forgot password?
+                </Link>
+              </p>
+            </div>
             <div
-              className="my-4 flex items-center max-w-xs m-auto
+              className="my-4 max-w-xs m-auto flex items-center 
                   before:border-t 
                   before:flex-1 
                   before:text-font-middle
@@ -172,7 +138,12 @@ function FarmerSignUp() {
                 or sign in with
               </p>
             </div>
-            <div className="flex gap-12 justify-center py-4"></div>
+            <div className="flex gap-12 justify-center py-4">
+              {/* Deleting this line as I don't see oAuth Component
+               <OAuth/>
+              <OAuth/>
+              <OAuth/> */}
+            </div>
           </form>
         </div>
       </div>
@@ -180,4 +151,4 @@ function FarmerSignUp() {
   );
 }
 
-export default FarmerSignUp;
+export default FarmerSignIn;
