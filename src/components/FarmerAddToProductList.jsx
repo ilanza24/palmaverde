@@ -1,14 +1,26 @@
 import React, { useState } from "react";
 import app from "../config/firebase";
+import { toast } from "react-toastify";
 import { getDatabase, ref, set, push } from "firebase/database";
 
-export default function ManageInventory() {
+const FarmerAddToProductList = () => {
   const [productName, setProductName] = useState("");
   const [price, setPrice] = useState(0);
   const [qty, setQty] = useState(0);
   const [unit, setUnit] = useState("Kg");
 
-  const saveToDB = async () => {
+  const saveToDB = async (event) => {
+    event.preventDefault();
+    if (
+      productName === "" ||
+      qty == 0 ||
+      qty === "" ||
+      isNaN(qty) ||
+      isNaN(qty)
+    ) {
+      toast.error("Inavlid inputs. Please try again");
+      return;
+    }
     const db = getDatabase(app);
     const newDocRef = push(ref(db, "Products"));
 
@@ -19,10 +31,14 @@ export default function ManageInventory() {
       unit: unit,
     })
       .then(() => {
-        alert("Product data saved successfully");
+        setProductName("");
+        setQty(0);
+        setPrice(0);
+        setUnit(0);
+        toast("Product added successfully");
       })
       .catch((e) => {
-        alert("Something went wrong", e);
+        toast.error("Something went wrong");
       });
   };
   return (
@@ -47,7 +63,7 @@ export default function ManageInventory() {
           />
         </label>
         <label>
-          Price<br></br>
+          Price In Euro<br></br>
           <input
             className=" border border-gray-300 m-2"
             value={price}
@@ -58,9 +74,9 @@ export default function ManageInventory() {
         <label>
           Unit<br></br>
           <select
-            value={"unit"}
+            value={unit}
             onChange={(e) => setUnit(e.target.value)}
-            class=" border border-gray-300 m-2"
+            className=" border border-gray-300 m-2"
           >
             <option value="Kg">Kg</option>
             <option value="Gram">Gram</option>
@@ -78,4 +94,6 @@ export default function ManageInventory() {
       </form>
     </>
   );
-}
+};
+
+export default FarmerAddToProductList;

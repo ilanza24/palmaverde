@@ -7,7 +7,7 @@ import FarmerProfil from "./pages/FarmerProfil";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import UploadProduct from "./pages/UploadProduct";
-import ManageInventory from "./pages/ManageInventory";
+import FarmerInventoryManager from "./pages/FarmerInventoryManager";
 
 function App() {
   return (
@@ -20,7 +20,10 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/farmer-profil" element={<FarmerProfil />} />
           <Route path="/upload-product" element={<UploadProduct />} />
-          <Route path="/manage-inventory" element={<ManageInventory />} />
+          <Route
+            path="/farmer-manage-inventory"
+            element={<FarmerInventoryManager />}
+          />
         </Routes>
       </Router>
       <ToastContainer
