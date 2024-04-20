@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function FarmerProfil() {
-  return (
-    <div>FarmerProfil</div>
-  )
+  return <div>FarmerProfil</div>;
 }
 
-export default FarmerProfil
+export default FarmerProfil;
