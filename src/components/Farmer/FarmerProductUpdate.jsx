@@ -1,25 +1,20 @@
 import React, { useState } from "react";
 import app from "../../config/firebase";
 import { toast } from "react-toastify";
-import { getDatabase, ref, set, push } from "firebase/database";
+import { getDatabase, ref, update } from "firebase/database";
 import { getAuth } from "firebase/auth";
 
-const FarmerAddToProductList = () => {
-  const [productName, setProductName] = useState("");
-  const [price, setPrice] = useState(0);
-  const [qty, setQty] = useState(1);
-  const [unit, setUnit] = useState("Kg");
+export default function FarmerProductUpdate(props) {
+  const [productName, setProductName] = useState(props.productName);
+  const [price, setPrice] = useState(props.price);
+  const [qty, setQty] = useState(props.quantity);
+  const [unit, setUnit] = useState(props.unit);
   const auth = getAuth();
+
   const currentUser = auth.currentUser;
   const saveToDB = async (event) => {
     event.preventDefault();
-    if (
-      productName === "" ||
-      qty == 0 ||
-      qty === "" ||
-      isNaN(qty) ||
-      isNaN(qty)
-    ) {
+    if (productName === "" || qty == 0 || qty === "") {
       toast.error("Inavlid inputs. Please try again");
       return;
     }
@@ -27,9 +22,9 @@ const FarmerAddToProductList = () => {
     if (currentUser) {
       const userId = currentUser.uid;
       const db = getDatabase(app);
-      const farmerRf = push(ref(db, `Farmers/${userId}/Products`));
+      const farmerRf = ref(db, `Farmers/${userId}/Products/${props.productId}`);
 
-      set(farmerRf, {
+      update(farmerRf, {
         productName: productName,
         quantity: qty,
         price: price,
@@ -43,13 +38,13 @@ const FarmerAddToProductList = () => {
           toast("Product added successfully");
         })
         .catch((e) => {
-          toast.error("Something went wrong");
+          toast.error("Something went wrong.");
         });
     }
   };
   return (
     <>
-      <h1 className="text-center m-4">Stock Management</h1>
+      <h1 className="text-center m-4">edit</h1>
       <form className="flex m-8 justify-center">
         <label>
           Product <br></br>
@@ -100,6 +95,4 @@ const FarmerAddToProductList = () => {
       </form>
     </>
   );
-};
-
-export default FarmerAddToProductList;
+}
