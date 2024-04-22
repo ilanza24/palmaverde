@@ -48,13 +48,16 @@ const FarmerAddToProductList = () => {
     }
   };
   return (
-    <>
-      <h1 className="text-center m-4">Stock Management</h1>
-      <form className="flex m-8 justify-center">
+    <div className="bg-primary">
+      <h1 className="text-center text-2xl px-4 py-2 text-[#fff]">
+        Manage Stock
+      </h1>
+      <form className="flex m-8 px-4 py-2 justify-center">
         <label>
           Product <br></br>
           <input
-            className="m-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+            className="font-body text-sm m-2 px-4 py-2 text-font-middle 
+            rounded-3xl bg-[#F9F5F1] transition ease-in-out focus:border-[#FEFDFC]"
             value={productName}
             onChange={(e) => setProductName(e.target.value)}
           />
@@ -62,7 +65,8 @@ const FarmerAddToProductList = () => {
         <label>
           Quantity<br></br>
           <input
-            className="text-sm border border-gray-300 m-2"
+            className="font-body text-sm m-2  px-4 py-2 text-font-middle 
+            rounded-3xl bg-[#F9F5F1] transition ease-in-out focus:border-[#FEFDFC]"
             value={qty}
             placeholder="Enter Quantity"
             onChange={(e) => setQty(e.target.value)}
@@ -71,7 +75,8 @@ const FarmerAddToProductList = () => {
         <label>
           Price In Euro<br></br>
           <input
-            className=" border border-gray-300 m-2"
+            className="font-body text-sm  m-2 px-4 py-2 text-font-middle 
+            rounded-3xl bg-[#F9F5F1] transition ease-in-out focus:border-[#FEFDFC]"
             value={price}
             placeholder="Enter price"
             onChange={(e) => setPrice(e.target.value)}
@@ -82,7 +87,8 @@ const FarmerAddToProductList = () => {
           <select
             value={unit}
             onChange={(e) => setUnit(e.target.value)}
-            className=" border border-gray-300 m-2"
+            className="font-body text-sm m-2 px-4 py-2 text-font-middle 
+            rounded-3xl bg-[#F9F5F1] transition ease-in-out focus:border-[#FEFDFC]"
           >
             <option value="Kg">Kg</option>
             <option value="Gram">Gram</option>
@@ -92,13 +98,14 @@ const FarmerAddToProductList = () => {
 
         <button
           type="submit"
-          className="bg-[#1da1f2] text-center text-white rounded-full border p-2 "
+          className="text-sm m-2 px-4 py-2 text-font-middle
+            rounded-3xl bg-[#FE8C06] text-[#ffff]"
           onClick={saveToDB}
         >
           Add to List
         </button>
       </form>
-    </>
+    </div>
   );
 };
 

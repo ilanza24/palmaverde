@@ -3,6 +3,7 @@ import app from "../../config/firebase";
 import FarmerUpdateProduct from "./FarmerUpdateProduct";
 import { getDatabase, ref, get, child, onValue } from "firebase/database";
 import { getAuth } from "firebase/auth";
+import EditNoteIcon from "@mui/icons-material/EditNote";
 
 export default function FarmerStockList() {
   const [listOfProducts, setListOfProducts] = useState(() => {
@@ -10,12 +11,10 @@ export default function FarmerStockList() {
       const savedList = localStorage.getItem("listOfProduct");
       return savedList ? JSON.parse(savedList) : [];
     } catch (e) {
-      console.log("e", e);
       return [];
     }
   });
 
-  const [showUpdateForm, setShowUpdateForm] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [productId, setProductId] = useState(null);
@@ -108,19 +107,19 @@ export default function FarmerStockList() {
     <>
       {listOfProducts &&
         listOfProducts.map(([id, product]) => (
-          <div className="flex gap-2" key={id}>
-            <span>Product: {product.productName}</span>
-            <span>Price: {product.price}</span>
-            <span>Quantity: {product.quantity}</span>
-            <span>Unit: {product.unit}</span>
-            <button
-              onClick={() => {
-                handleEdit(id, product);
-              }}
-            >
-              Edit
-            </button>
-          </div>
+          <ul className="list-inside bg-gray-200" key={id}>
+            <li className="flex gap-2 m-2 p-5 ">
+              <span>Product: {product.productName}</span>
+              <span>Price: {product.price}</span>
+              <span>Quantity: {product.quantity}</span>
+              <span>Unit: {product.unit}</span>
+              <EditNoteIcon
+                onClick={() => {
+                  handleEdit(id, product);
+                }}
+              />
+            </li>
+          </ul>
         ))}
       {isEditing && (
         <FarmerUpdateProduct

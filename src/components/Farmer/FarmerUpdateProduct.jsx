@@ -4,17 +4,15 @@ import { toast } from "react-toastify";
 import { getDatabase, ref, update } from "firebase/database";
 import { getAuth } from "firebase/auth";
 import { Modal } from "@mui/material";
+import BackspaceIcon from "@mui/icons-material/Backspace";
 
 export default function FarmerUpdateProduct(props) {
   const [productName, setProductName] = useState(props.productName);
   const [price, setPrice] = useState(props.price);
   const [qty, setQty] = useState(props.quantity);
   const [unit, setUnit] = useState(props.unit);
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const isModalOpen = true;
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
   const auth = getAuth();
   const currentUser = auth.currentUser;
 
@@ -55,25 +53,25 @@ export default function FarmerUpdateProduct(props) {
         <Modal
           open={isModalOpen}
           onClose={() => {
-            handleCloseModal();
+            props.handleCancel();
           }}
           style={{
             position: "absolute",
-            border: "2px solid #000",
-            backgroundColor: "lightgray",
+            backgroundColor: "#808080",
             boxShadow: "2px solid black",
             height: 200,
-            width: 800,
+            width: 1000,
             margin: "auto",
             padding: "2%",
-            color: "black",
+            color: "white",
           }}
         >
           <form className="flex m-8 justify-center">
             <label>
               Product <br></br>
               <input
-                className="m-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                className="font-body text-sm m-2 px-4 py-2 text-font-middle 
+                rounded-3xl bg-[#F9F5F1] transition ease-in-out focus:border-[#FEFDFC]"
                 value={productName}
                 onChange={(e) => setProductName(e.target.value)}
               />
@@ -81,7 +79,8 @@ export default function FarmerUpdateProduct(props) {
             <label>
               Quantity<br></br>
               <input
-                className="text-sm border border-gray-300 m-2"
+                className="font-body text-sm m-2 px-4 py-2 text-font-middle 
+                rounded-3xl bg-[#F9F5F1] transition ease-in-out focus:border-[#FEFDFC]"
                 value={qty}
                 placeholder="Enter Quantity"
                 onChange={(e) => setQty(e.target.value)}
@@ -90,7 +89,8 @@ export default function FarmerUpdateProduct(props) {
             <label>
               Price In Euro<br></br>
               <input
-                className=" border border-gray-300 m-2"
+                className="font-body text-sm m-2 px-4 py-2 text-font-middle 
+                rounded-3xl bg-[#F9F5F1] transition ease-in-out focus:border-[#FEFDFC]"
                 value={price}
                 placeholder="Enter price"
                 onChange={(e) => setPrice(e.target.value)}
@@ -101,7 +101,8 @@ export default function FarmerUpdateProduct(props) {
               <select
                 value={unit}
                 onChange={(e) => setUnit(e.target.value)}
-                className=" border border-gray-300 m-2"
+                className="font-body text-sm m-2 px-4 py-2 text-font-middle 
+                rounded-3xl bg-[#F9F5F1] transition ease-in-out focus:border-[#FEFDFC]"
               >
                 <option value="Kg">Kg</option>
                 <option value="Gram">Gram</option>
@@ -111,12 +112,13 @@ export default function FarmerUpdateProduct(props) {
 
             <button
               type="submit"
-              className="bg-[#1da1f2] text-center text-white rounded-full border p-2 "
+              className="font-body text-sm m-2 px-4 py-2 text-font-middle 
+            rounded-3xl bg-[#FE8C06] transition ease-in-out focus:border-[#FEFDFC] "
               onClick={saveToDB}
             >
               Update
             </button>
-            <button onClick={() => props.handleCancel}>cancel</button>
+            <BackspaceIcon onClick={() => props.handleCancel} />
           </form>
         </Modal>
       }
