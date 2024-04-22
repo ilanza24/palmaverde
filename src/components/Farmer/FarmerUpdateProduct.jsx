@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { getDatabase, ref, update } from "firebase/database";
 import { getAuth } from "firebase/auth";
 
-export default function FarmerProductUpdate(props) {
+export default function FarmerUpdateProduct(props) {
   const [productName, setProductName] = useState(props.productName);
   const [price, setPrice] = useState(props.price);
   const [qty, setQty] = useState(props.quantity);

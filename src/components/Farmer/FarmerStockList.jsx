@@ -1,43 +1,54 @@
 import React, { useEffect, useState } from "react";
 import app from "../../config/firebase";
-import FarmerProductUpdate from "../Farmer/FarmerProductUpdate";
+import FarmerUpdateProduct from "./FarmerUpdateProduct";
 import { getDatabase, ref, get, child, onValue } from "firebase/database";
 import { getAuth } from "firebase/auth";
 
 export default function FarmerStockList() {
-  const [listOfProducts, setListOfProducts] = useState([]);
+  const [listOfProducts, setListOfProducts] = useState(() => {
+    const savedList = localStorage.getItem("listOfProduct");
+    try {
+      return savedList ? JSON.parse(savedList) : [];
+    } catch (e) {
+      console.log("e", e);
+      return [];
+    }
+  });
+  //wwork from here you are saving list data to localstorage
   const [showUpdateForm, setShowUpdateForm] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [productId, setProductId] = useState(null);
-
   const auth = getAuth();
-  const currentUser = auth.currentUser;
-
-  const getDataDB = async (event) => {
-    const dbRef = ref(getDatabase(app));
-    get(child(dbRef, `Farmers/${currentUser.uid}/Products`))
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          const entriesArray = Object.entries(snapshot.val());
-          setListOfProducts(entriesArray);
-        } else {
-          console.log("No data available");
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
-  const updateData = (productId, product) => {
-    setShowUpdateForm(true);
-    setSelectedProduct(product);
-    setProductId(productId);
-  };
-  useEffect(() => {
-    if (!currentUser) {
-      return;
+  const [currentUser, setCurrentUser] = useState(() => {
+    try {
+      const getSavedUser = JSON.parse(
+        localStorage.getItem("saveLocallyCurrentUser")
+      );
+      return getSavedUser;
+    } catch (e) {
+      console.log("error", e);
+      return auth.currentUser;
     }
+  });
+  useEffect(() => {
+    // console.log("currentUser", currentUser);
+    const getDataDB = async () => {
+      const dbRef = ref(getDatabase(app));
+      get(child(dbRef, `Farmers/${currentUser.uid}/Products`))
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            const entriesArray = Object.entries(snapshot.val());
+            setListOfProducts(entriesArray);
+          } else {
+            console.log("No data available");
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    };
+    localStorage.setItem("saveLocallyCurrentUser", JSON.stringify(currentUser));
+    getDataDB();
 
     const dbRef = ref(getDatabase(app), `Farmers/${currentUser.uid}/Products`);
 
@@ -51,11 +62,20 @@ export default function FarmerStockList() {
       }
     );
 
-    // Clean up: Unsubscribe the listener when the component unmounts
     return () => {
       unsubscribe();
     };
-  }, [currentUser]);
+  });
+
+  useEffect(() => {
+    localStorage.setItem("listOfProduct", JSON.stringify(listOfProducts));
+  }, [listOfProducts]);
+
+  const updateData = (productId, product) => {
+    setShowUpdateForm(true);
+    setSelectedProduct(product);
+    setProductId(productId);
+  };
 
   return (
     <>
@@ -75,7 +95,7 @@ export default function FarmerStockList() {
           </div>
         ))}
       {showUpdateForm && (
-        <FarmerProductUpdate
+        <FarmerUpdateProduct
           productId={productId}
           productName={selectedProduct.productName}
           price={selectedProduct.price}
