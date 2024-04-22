@@ -3,14 +3,15 @@ import app from "../../config/firebase";
 import { toast } from "react-toastify";
 import { getDatabase, ref, update } from "firebase/database";
 import { getAuth } from "firebase/auth";
+import { Modal } from "@mui/material";
 
 export default function FarmerUpdateProduct(props) {
   const [productName, setProductName] = useState(props.productName);
   const [price, setPrice] = useState(props.price);
   const [qty, setQty] = useState(props.quantity);
   const [unit, setUnit] = useState(props.unit);
+  const [isOpenModel, setIsOpenModel] = useState(true);
   const auth = getAuth();
-
   const currentUser = auth.currentUser;
   const saveToDB = async (event) => {
     event.preventDefault();
@@ -36,6 +37,7 @@ export default function FarmerUpdateProduct(props) {
           setPrice(0);
           setUnit(0);
           toast("Product added successfully");
+          setIsOpenModel(false);
         })
         .catch((e) => {
           toast.error("Something went wrong.");
@@ -45,8 +47,23 @@ export default function FarmerUpdateProduct(props) {
   return (
     <>
       {
-        <>
-          <h1 className="text-center m-4">edit</h1>
+        <Modal
+          open={isOpenModel}
+          onClose={() => {
+            setIsOpenModel(false);
+          }}
+          style={{
+            position: "absolute",
+            border: "2px solid #000",
+            backgroundColor: "lightgray",
+            boxShadow: "2px solid black",
+            height: 200,
+            width: 800,
+            margin: "auto",
+            padding: "2%",
+            color: "black",
+          }}
+        >
           <form className="flex m-8 justify-center">
             <label>
               Product <br></br>
@@ -94,9 +111,9 @@ export default function FarmerUpdateProduct(props) {
             >
               Update
             </button>
-            <button onClick={props.cancelEdit}>Cancel</button>
+            <button onClick={() => setIsOpenModel(false)}>cancel</button>
           </form>
-        </>
+        </Modal>
       }
     </>
   );
