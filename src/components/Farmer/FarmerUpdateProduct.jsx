@@ -44,55 +44,60 @@ export default function FarmerUpdateProduct(props) {
   };
   return (
     <>
-      <h1 className="text-center m-4">edit</h1>
-      <form className="flex m-8 justify-center">
-        <label>
-          Product <br></br>
-          <input
-            className="m-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-            value={productName}
-            onChange={(e) => setProductName(e.target.value)}
-          />
-        </label>
-        <label>
-          Quantity<br></br>
-          <input
-            className="text-sm border border-gray-300 m-2"
-            value={qty}
-            placeholder="Enter Quantity"
-            onChange={(e) => setQty(e.target.value)}
-          />
-        </label>
-        <label>
-          Price In Euro<br></br>
-          <input
-            className=" border border-gray-300 m-2"
-            value={price}
-            placeholder="Enter price"
-            onChange={(e) => setPrice(e.target.value)}
-          />
-        </label>
-        <label>
-          Unit<br></br>
-          <select
-            value={unit}
-            onChange={(e) => setUnit(e.target.value)}
-            className=" border border-gray-300 m-2"
-          >
-            <option value="Kg">Kg</option>
-            <option value="Gram">Gram</option>
-          </select>
-        </label>
-        <br></br>
+      {
+        <>
+          <h1 className="text-center m-4">edit</h1>
+          <form className="flex m-8 justify-center">
+            <label>
+              Product <br></br>
+              <input
+                className="m-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                value={productName}
+                onChange={(e) => setProductName(e.target.value)}
+              />
+            </label>
+            <label>
+              Quantity<br></br>
+              <input
+                className="text-sm border border-gray-300 m-2"
+                value={qty}
+                placeholder="Enter Quantity"
+                onChange={(e) => setQty(e.target.value)}
+              />
+            </label>
+            <label>
+              Price In Euro<br></br>
+              <input
+                className=" border border-gray-300 m-2"
+                value={price}
+                placeholder="Enter price"
+                onChange={(e) => setPrice(e.target.value)}
+              />
+            </label>
+            <label>
+              Unit<br></br>
+              <select
+                value={unit}
+                onChange={(e) => setUnit(e.target.value)}
+                className=" border border-gray-300 m-2"
+              >
+                <option value="Kg">Kg</option>
+                <option value="Gram">Gram</option>
+              </select>
+            </label>
+            <br></br>
 
-        <button
-          type="submit"
-          className="bg-[#1da1f2] text-center text-white rounded-full border p-2 "
-          onClick={saveToDB}
-        >
-          Add to List
-        </button>
-      </form>
+            <button
+              type="submit"
+              className="bg-[#1da1f2] text-center text-white rounded-full border p-2 "
+              onClick={saveToDB}
+            >
+              Update
+            </button>
+            <button onClick={props.cancelEdit}>Cancel</button>
+          </form>
+        </>
+      }
     </>
   );
 }
