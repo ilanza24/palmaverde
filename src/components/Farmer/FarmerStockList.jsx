@@ -129,6 +129,7 @@ export default function FarmerStockList() {
           price={selectedProduct.price}
           quantity={selectedProduct.quantity}
           unit={selectedProduct.unit}
+          handleCancel={handleCancel}
         />
       )}
     </>

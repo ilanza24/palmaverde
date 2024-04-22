@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import app from "../../config/firebase";
 import { toast } from "react-toastify";
 import { getDatabase, ref, update } from "firebase/database";
@@ -10,9 +10,14 @@ export default function FarmerUpdateProduct(props) {
   const [price, setPrice] = useState(props.price);
   const [qty, setQty] = useState(props.quantity);
   const [unit, setUnit] = useState(props.unit);
-  const [isOpenModel, setIsOpenModel] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(true);
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
   const auth = getAuth();
   const currentUser = auth.currentUser;
+
   const saveToDB = async (event) => {
     event.preventDefault();
     if (productName === "" || qty == 0 || qty === "") {
@@ -37,7 +42,7 @@ export default function FarmerUpdateProduct(props) {
           setPrice(0);
           setUnit(0);
           toast("Product added successfully");
-          setIsOpenModel(false);
+          props.handleCancel();
         })
         .catch((e) => {
           toast.error("Something went wrong.");
@@ -48,9 +53,9 @@ export default function FarmerUpdateProduct(props) {
     <>
       {
         <Modal
-          open={isOpenModel}
+          open={isModalOpen}
           onClose={() => {
-            setIsOpenModel(false);
+            handleCloseModal();
           }}
           style={{
             position: "absolute",
@@ -111,7 +116,7 @@ export default function FarmerUpdateProduct(props) {
             >
               Update
             </button>
-            <button onClick={() => setIsOpenModel(false)}>cancel</button>
+            <button onClick={() => props.handleCancel}>cancel</button>
           </form>
         </Modal>
       }
