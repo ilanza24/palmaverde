@@ -6,18 +6,6 @@ import { getAuth } from "firebase/auth";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 
 export default function FarmerStockList() {
-  const [listOfProducts, setListOfProducts] = useState(() => {
-    try {
-      const savedList = localStorage.getItem("listOfProduct");
-      return savedList ? JSON.parse(savedList) : [];
-    } catch (e) {
-      return [];
-    }
-  });
-
-  const [isEditing, setIsEditing] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [productId, setProductId] = useState(null);
   const auth = getAuth();
   const [currentUser, setCurrentUser] = useState(() => {
     try {
@@ -30,6 +18,19 @@ export default function FarmerStockList() {
       return;
     }
   });
+  const [listOfProducts, setListOfProducts] = useState(() => {
+    try {
+      const savedList = localStorage.getItem("listOfProduct");
+      return savedList ? JSON.parse(savedList) : getDataDB();
+    } catch (e) {
+      return [];
+    }
+  });
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [productId, setProductId] = useState(null);
+
   useEffect(() => {
     try {
       localStorage.setItem(

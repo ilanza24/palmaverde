@@ -118,7 +118,7 @@ export default function FarmerUpdateProduct(props) {
             >
               Update
             </button>
-            <BackspaceIcon onClick={() => props.handleCancel} />
+            <button onClick={() => props.handleCancel}> Cancel</button>
           </form>
         </Modal>
       }
