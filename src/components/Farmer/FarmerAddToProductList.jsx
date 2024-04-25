@@ -70,7 +70,8 @@ const FarmerAddToProductList = () => {
       </h1>
       <button
         onClick={handleSignOut}
-        className="text-right text-2xl px-4 py-2 text-[#fff]"
+        className="absolute top-0 right-0 text-sm m-10 px-4 py-2 text-font-middle
+            rounded-3xl bg-[#000000] text-[#f7f5f5]"
       >
         Sign Out
       </button>
