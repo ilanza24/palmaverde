@@ -1,16 +1,32 @@
 import React, { useState } from "react";
 import app from "../../config/firebase";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getDatabase, ref, set, push } from "firebase/database";
 import { getAuth } from "firebase/auth";
 
 const FarmerAddToProductList = () => {
+  const navigate = useNavigate();
   const [productName, setProductName] = useState("");
   const [price, setPrice] = useState(0);
   const [qty, setQty] = useState(1);
   const [unit, setUnit] = useState("Kg");
   const auth = getAuth();
   const currentUser = auth.currentUser;
+
+  const handleSignOut = async (event) => {
+    event.preventDefault();
+    auth
+      .signOut()
+      .then(() => {
+        localStorage.clear();
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log("Sign In error", error);
+      });
+  };
+
   const saveToDB = async (event) => {
     event.preventDefault();
     if (
@@ -52,6 +68,12 @@ const FarmerAddToProductList = () => {
       <h1 className="text-center text-2xl px-4 py-2 text-[#fff]">
         Manage Stock
       </h1>
+      <button
+        onClick={handleSignOut}
+        className="text-right text-2xl px-4 py-2 text-[#fff]"
+      >
+        Sign Out
+      </button>
       <form className="flex m-8 px-4 py-2 justify-center">
         <label>
           Product <br></br>
