@@ -1,47 +1,55 @@
 import React, { useEffect, useState } from "react";
+import EditNoteIcon from "@mui/icons-material/EditNote";
+import { getDatabase, ref, get, child, onValue } from "firebase/database";
+
 import app from "../../config/firebase";
 import FarmerUpdateProduct from "./FarmerUpdateProduct";
-import { getDatabase, ref, get, child, onValue } from "firebase/database";
-import { getAuth } from "firebase/auth";
-import EditNoteIcon from "@mui/icons-material/EditNote";
+import GetUser from "./GetUser";
 
 export default function FarmerStockList() {
-  const auth = getAuth();
-  const [currentUser, setCurrentUser] = useState(() => {
-    try {
-      const getSavedUser =
-        JSON.parse(localStorage.getItem("saveLocallyCurrentUser")) ||
-        auth.currentUser;
-      return getSavedUser;
-    } catch (e) {
-      console.log("error", e);
-      return;
+  const currentUser = GetUser();
+  const [listOfProducts, setListOfProducts] = useState([]);
+  const [isEditing, setIsEditing] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [productId, setProductId] = useState(null);
+
+  //initial when component mount
+  useEffect(() => {
+    if (currentUser !== null) {
+      setListOfProducts(getListOfproduct);
+      saveToLocalStorage("saveLocallyCurrentUser", currentUser, "current user");
+
+      const dbRef = ref(
+        getDatabase(app),
+        `Farmers/${currentUser.uid}/Products`
+      );
+
+      const realTimeDataListener = onValue(
+        dbRef,
+        () => {
+          getDataDB();
+        },
+        (error) => {
+          console.error("Error with data listener:", error);
+        }
+      );
+      // Cleanup function to realTimeDataListener from the listener when the component unmounts
+      return realTimeDataListener;
     }
-  });
-  const [listOfProducts, setListOfProducts] = useState(() => {
+  }, []);
+
+  useEffect(() => {
+    saveToLocalStorage("listOfProduct", listOfProducts, "listOfProduct");
+  }, [listOfProducts]);
+
+  const getListOfproduct = () => {
     try {
       const savedList = localStorage.getItem("listOfProduct");
       return savedList ? JSON.parse(savedList) : getDataDB();
     } catch (e) {
       return [];
     }
-  });
-
-  const [isEditing, setIsEditing] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [productId, setProductId] = useState(null);
-
-  useEffect(() => {
-    try {
-      localStorage.setItem(
-        "saveLocallyCurrentUser",
-        JSON.stringify(currentUser)
-      );
-    } catch (error) {
-      console.error("Failed to update local storage for current user:", error);
-    }
-    getDataDB();
-  }, [currentUser]);
+  };
 
   const getDataDB = async () => {
     const dbRef = ref(getDatabase(app));
@@ -59,49 +67,24 @@ export default function FarmerStockList() {
       });
   };
 
-  useEffect(() => {
-    if (currentUser !== null) {
-      const dbRef = ref(
-        getDatabase(app),
-        `Farmers/${currentUser.uid}/Products`
-      );
-
-      const unsubscribe = onValue(
-        dbRef,
-        (snapshot) => {
-          getDataDB();
-        },
-        (error) => {
-          console.error("Error with data listener:", error);
-        }
-      );
-
-      return () => {
-        unsubscribe();
-      };
-    }
-  }, [currentUser]);
-
-  useEffect(() => {
-    try {
-      localStorage.setItem("listOfProduct", JSON.stringify(listOfProducts));
-    } catch (error) {
-      console.error(
-        "Failed to update local storage for list of products:",
-        error
-      );
-    }
-  }, [listOfProducts]);
-
   const handleEdit = (productId, product) => {
     setIsEditing(true);
     setSelectedProduct(product);
     setProductId(productId);
   };
+
   const handleCancel = () => {
     setIsEditing(false);
     setSelectedProduct(null);
     setProductId(null);
+  };
+
+  const saveToLocalStorage = (key, value, message) => {
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+      console.error(`Failed to update local storage for ${message}:`, error);
+    }
   };
 
   return (

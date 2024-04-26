@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getDatabase, ref, set, push } from "firebase/database";
 import { getAuth } from "firebase/auth";
+import GetUser from "./GetUser";
 
 const FarmerAddToProductList = () => {
   const navigate = useNavigate();
@@ -11,12 +12,11 @@ const FarmerAddToProductList = () => {
   const [price, setPrice] = useState(0);
   const [qty, setQty] = useState(1);
   const [unit, setUnit] = useState("Kg");
-  const auth = getAuth();
-  const currentUser = auth.currentUser;
+  const currentUser = GetUser();
 
   const handleSignOut = async (event) => {
     event.preventDefault();
-    auth
+    getAuth()
       .signOut()
       .then(() => {
         localStorage.clear();
@@ -29,14 +29,7 @@ const FarmerAddToProductList = () => {
 
   const saveToDB = async (event) => {
     event.preventDefault();
-    if (
-      productName === "" ||
-      qty == 0 ||
-      qty === "" ||
-      isNaN(qty) ||
-      isNaN(qty)
-    ) {
-      toast.error("Inavlid inputs. Please try again");
+    if (!CheckInput(productName, qty)) {
       return;
     }
 
@@ -52,16 +45,19 @@ const FarmerAddToProductList = () => {
         unit: unit,
       })
         .then(() => {
-          setProductName("");
-          setQty(0);
-          setPrice(0);
-          setUnit(0);
+          resetForm();
           toast("Product added successfully");
         })
         .catch((e) => {
           toast.error("Something went wrong");
         });
     }
+  };
+  const resetForm = () => {
+    setProductName("");
+    setQty(0);
+    setPrice(0);
+    setUnit("Kg");
   };
   return (
     <div className="bg-primary">
@@ -133,3 +129,17 @@ const FarmerAddToProductList = () => {
 };
 
 export default FarmerAddToProductList;
+
+const CheckInput = (productName, qty) => {
+  if (
+    productName === "" ||
+    qty == 0 ||
+    qty === "" ||
+    isNaN(qty) ||
+    isNaN(qty)
+  ) {
+    toast.error("Invalid inputs. Please try again");
+    return false;
+  }
+  return true;
+};

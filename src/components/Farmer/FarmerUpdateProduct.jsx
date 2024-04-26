@@ -1,20 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import app from "../../config/firebase";
 import { toast } from "react-toastify";
 import { getDatabase, ref, update } from "firebase/database";
-import { getAuth } from "firebase/auth";
 import { Modal } from "@mui/material";
-import BackspaceIcon from "@mui/icons-material/Backspace";
+import GetUser from "./GetUser";
 
 export default function FarmerUpdateProduct(props) {
+  const currentUser = GetUser();
   const [productName, setProductName] = useState(props.productName);
   const [price, setPrice] = useState(props.price);
   const [qty, setQty] = useState(props.quantity);
   const [unit, setUnit] = useState(props.unit);
   const isModalOpen = true;
-
-  const auth = getAuth();
-  const currentUser = auth.currentUser;
 
   const saveToDB = async (event) => {
     event.preventDefault();
