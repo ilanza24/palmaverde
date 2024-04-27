@@ -1,56 +1,88 @@
 import React, { useState } from "react";
-import app from "../../config/firebase";
 import { toast } from "react-toastify";
-import { getDatabase, ref, update } from "firebase/database";
+import { getDatabase, ref, update, remove } from "firebase/database";
 import { Modal } from "@mui/material";
-import GetUser from "./GetUser";
 
-export default function FarmerUpdateProduct(props) {
-  const currentUser = GetUser();
-  const [productName, setProductName] = useState(props.productName);
-  const [price, setPrice] = useState(props.price);
-  const [qty, setQty] = useState(props.quantity);
-  const [unit, setUnit] = useState(props.unit);
+import app from "../../config/firebase";
+import GetCurrentUser from "./GetUser";
+
+function FarmerUpdateProduct({
+  productName,
+  price,
+  quantity,
+  unit,
+  productId,
+  handleCancel,
+}) {
+  const currentUser = GetCurrentUser();
+  const [productNameToUpdate, setProductNameToUpdate] = useState(productName);
+  const [priceToUpdate, setPriceToUpdate] = useState(price);
+  const [qtyToUpdate, setQtyToUpdate] = useState(quantity);
+  const [unitToUpdate, setUnitToUpdate] = useState(unit);
   const isModalOpen = true;
 
-  const saveToDB = async (event) => {
+  const handleSaveToDB = async (event) => {
     event.preventDefault();
-    if (productName === "" || qty == 0 || qty === "") {
-      toast.error("Inavlid inputs. Please try again");
+
+    if (
+      productNameToUpdate === "" ||
+      qtyToUpdate === "" ||
+      priceToUpdate === "" ||
+      isNaN(qtyToUpdate) ||
+      isNaN(priceToUpdate)
+    ) {
+      toast.error("Invalid inputs. Please try again");
       return;
     }
 
-    if (currentUser) {
-      const userId = currentUser.uid;
-      const db = getDatabase(app);
-      const farmerRf = ref(db, `Farmers/${userId}/Products/${props.productId}`);
+    if (!currentUser || currentUser === null) {
+      return;
+    }
+    const userId = currentUser.uid;
 
-      update(farmerRf, {
-        productName: productName,
-        quantity: qty,
-        price: price,
-        unit: unit,
-      })
-        .then(() => {
-          setProductName("");
-          setQty(0);
-          setPrice(0);
-          setUnit(0);
-          toast("Product added successfully");
-          props.handleCancel();
-        })
-        .catch((e) => {
-          toast.error("Something went wrong.");
+    const db = getDatabase(app);
+    const farmerProductRf = ref(db, `Farmers/${userId}/Products/${productId}`);
+
+    if (qtyToUpdate == 0) {
+      await deleteProduct(farmerProductRf);
+      return;
+    } else {
+      await updateProduct(farmerProductRf);
+    }
+
+    async function deleteProduct(farmerProductRf) {
+      try {
+        await remove(farmerProductRf);
+        toast(`${productName} product is removed as quantity is zero.`);
+        handleCancel();
+      } catch (e) {
+        console.log("delete product", e);
+      }
+    }
+
+    async function updateProduct(farmerProductRf) {
+      try {
+        await update(farmerProductRf, {
+          productName: productNameToUpdate,
+          quantity: qtyToUpdate,
+          price: priceToUpdate,
+          unit: unitToUpdate,
         });
+        toast("Product updated successfully");
+        handleCancel();
+      } catch (e) {
+        toast.error("Something went wrong.");
+      }
     }
   };
+
   return (
     <>
       {
         <Modal
           open={isModalOpen}
           onClose={() => {
-            props.handleCancel();
+            handleCancel();
           }}
           style={{
             position: "absolute",
@@ -69,8 +101,8 @@ export default function FarmerUpdateProduct(props) {
               <input
                 className="font-body text-sm m-2 px-4 py-2 text-font-middle 
                 rounded-3xl bg-[#F9F5F1] transition ease-in-out focus:border-[#FEFDFC]"
-                value={productName}
-                onChange={(e) => setProductName(e.target.value)}
+                value={productNameToUpdate}
+                onChange={(e) => setProductNameToUpdate(e.target.value)}
               />
             </label>
             <label>
@@ -78,9 +110,9 @@ export default function FarmerUpdateProduct(props) {
               <input
                 className="font-body text-sm m-2 px-4 py-2 text-font-middle 
                 rounded-3xl bg-[#F9F5F1] transition ease-in-out focus:border-[#FEFDFC]"
-                value={qty}
+                value={qtyToUpdate}
                 placeholder="Enter Quantity"
-                onChange={(e) => setQty(e.target.value)}
+                onChange={(e) => setQtyToUpdate(e.target.value)}
               />
             </label>
             <label>
@@ -88,16 +120,16 @@ export default function FarmerUpdateProduct(props) {
               <input
                 className="font-body text-sm m-2 px-4 py-2 text-font-middle 
                 rounded-3xl bg-[#F9F5F1] transition ease-in-out focus:border-[#FEFDFC]"
-                value={price}
+                value={priceToUpdate}
                 placeholder="Enter price"
-                onChange={(e) => setPrice(e.target.value)}
+                onChange={(e) => setPriceToUpdate(e.target.value)}
               />
             </label>
             <label>
               Unit<br></br>
               <select
-                value={unit}
-                onChange={(e) => setUnit(e.target.value)}
+                value={unitToUpdate}
+                onChange={(e) => setUnitToUpdate(e.target.value)}
                 className="font-body text-sm m-2 px-4 py-2 text-font-middle 
                 rounded-3xl bg-[#F9F5F1] transition ease-in-out focus:border-[#FEFDFC]"
               >
@@ -111,14 +143,15 @@ export default function FarmerUpdateProduct(props) {
               type="submit"
               className="font-body text-sm m-2 px-4 py-2 text-font-middle 
             rounded-3xl bg-[#FE8C06] transition ease-in-out focus:border-[#FEFDFC] "
-              onClick={saveToDB}
+              onClick={handleSaveToDB}
             >
               Update
             </button>
-            <button onClick={() => props.handleCancel}> Cancel</button>
+            <button onClick={() => handleCancel}> Cancel</button>
           </form>
         </Modal>
       }
     </>
   );
 }
+export default FarmerUpdateProduct;

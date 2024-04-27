@@ -1,46 +1,41 @@
 import React, { useEffect, useState } from "react";
-import EditNoteIcon from "@mui/icons-material/EditNote";
 import { getDatabase, ref, get, child, onValue } from "firebase/database";
+import EditNoteIcon from "@mui/icons-material/EditNote";
 
 import app from "../../config/firebase";
-import FarmerUpdateProduct from "./FarmerUpdateProduct";
 import GetUser from "./GetUser";
+import FarmerUpdateProduct from "./FarmerUpdateProduct";
 
-export default function FarmerStockList() {
+function FarmerStockList() {
   const currentUser = GetUser();
   const [listOfProducts, setListOfProducts] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [productId, setProductId] = useState(null);
 
-  //initial when component mount
   useEffect(() => {
-    if (currentUser !== null) {
-      setListOfProducts(getListOfproduct);
-      saveToLocalStorage("saveLocallyCurrentUser", currentUser, "current user");
-
-      const dbRef = ref(
-        getDatabase(app),
-        `Farmers/${currentUser.uid}/Products`
-      );
-
-      const realTimeDataListener = onValue(
-        dbRef,
-        () => {
-          getDataDB();
-        },
-        (error) => {
-          console.error("Error with data listener:", error);
-        }
-      );
-      // Cleanup function to realTimeDataListener from the listener when the component unmounts
-      return realTimeDataListener;
+    //call when the component is mount as dependency is []
+    if (!currentUser || currentUser === null) {
+      return;
     }
-  }, []);
 
-  useEffect(() => {
+    setListOfProducts(getListOfproduct);
+    saveToLocalStorage("saveLocallyCurrentUser", currentUser, "current user");
     saveToLocalStorage("listOfProduct", listOfProducts, "listOfProduct");
-  }, [listOfProducts]);
+
+    const dbRef = ref(getDatabase(app), `Farmers/${currentUser.uid}/Products`);
+    const realTimeDataListener = onValue(
+      dbRef,
+      () => {
+        getDataDB();
+      },
+      (error) => {
+        console.error("Error with data listener:", error);
+      }
+    );
+    // Cleanup function to realTimeDataListener from the listener when the component unmounts
+    return realTimeDataListener;
+  }, []);
 
   const getListOfproduct = () => {
     try {
@@ -57,9 +52,9 @@ export default function FarmerStockList() {
       .then((snapshot) => {
         if (snapshot.exists()) {
           const entriesArray = Object.entries(snapshot.val());
-          setListOfProducts(entriesArray);
-        } else {
-          console.log("No data available");
+          if (JSON.stringify(entriesArray) !== JSON.stringify(listOfProducts)) {
+            setListOfProducts(entriesArray);
+          }
         }
       })
       .catch((error) => {
@@ -118,3 +113,5 @@ export default function FarmerStockList() {
     </>
   );
 }
+
+export default FarmerStockList;

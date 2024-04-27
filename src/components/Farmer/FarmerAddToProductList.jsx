@@ -1,18 +1,19 @@
 import React, { useState } from "react";
-import app from "../../config/firebase";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getDatabase, ref, set, push } from "firebase/database";
 import { getAuth } from "firebase/auth";
+
+import app from "../../config/firebase";
 import GetUser from "./GetUser";
 
 const FarmerAddToProductList = () => {
   const navigate = useNavigate();
+  const currentUser = GetUser();
   const [productName, setProductName] = useState("");
   const [price, setPrice] = useState(0);
   const [qty, setQty] = useState(1);
   const [unit, setUnit] = useState("Kg");
-  const currentUser = GetUser();
 
   const handleSignOut = async (event) => {
     event.preventDefault();
@@ -29,36 +30,41 @@ const FarmerAddToProductList = () => {
 
   const saveToDB = async (event) => {
     event.preventDefault();
-    if (!CheckInput(productName, qty)) {
+
+    if (!CheckInput(productName, qty, price)) {
       return;
     }
 
-    if (currentUser) {
-      const userId = currentUser.uid;
-      const db = getDatabase(app);
-      const farmerRf = push(ref(db, `Farmers/${userId}/Products`));
-
-      set(farmerRf, {
-        productName: productName,
-        quantity: qty,
-        price: price,
-        unit: unit,
-      })
-        .then(() => {
-          resetForm();
-          toast("Product added successfully");
-        })
-        .catch((e) => {
-          toast.error("Something went wrong");
-        });
+    if (!currentUser || currentUser === null) {
+      return;
     }
+
+    const userId = currentUser.uid;
+    const db = getDatabase(app);
+    const farmerRf = push(ref(db, `Farmers/${userId}/Products`));
+
+    set(farmerRf, {
+      productName: productName,
+      quantity: qty,
+      price: price,
+      unit: unit,
+    })
+      .then(() => {
+        resetForm();
+        toast("Product added successfully");
+      })
+      .catch((e) => {
+        toast.error("Something went wrong");
+      });
   };
+
   const resetForm = () => {
     setProductName("");
-    setQty(0);
+    setQty(1);
     setPrice(0);
     setUnit("Kg");
   };
+
   return (
     <div className="bg-primary">
       <h1 className="text-center text-2xl px-4 py-2 text-[#fff]">
@@ -128,18 +134,19 @@ const FarmerAddToProductList = () => {
   );
 };
 
-export default FarmerAddToProductList;
-
-const CheckInput = (productName, qty) => {
+const CheckInput = (productName, qty, price) => {
   if (
     productName === "" ||
     qty == 0 ||
     qty === "" ||
     isNaN(qty) ||
-    isNaN(qty)
+    isNaN(price) ||
+    price === ""
   ) {
     toast.error("Invalid inputs. Please try again");
     return false;
   }
   return true;
 };
+
+export default FarmerAddToProductList;
