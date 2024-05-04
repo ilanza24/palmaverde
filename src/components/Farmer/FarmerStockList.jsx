@@ -84,7 +84,7 @@ function FarmerStockList() {
 
   return (
     <>
-      {listOfProducts &&
+      {listOfProducts.length > 0 ? (
         listOfProducts.map(([id, product]) => (
           <ul className="list-inside bg-gray-200" key={id}>
             <li className="flex gap-2 m-2 p-5 ">
@@ -99,7 +99,11 @@ function FarmerStockList() {
               />
             </li>
           </ul>
-        ))}
+        ))
+      ) : (
+        <>You have not added any product.</>
+      )}
+
       {isEditing && (
         <FarmerUpdateProduct
           productId={productId}

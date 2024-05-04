@@ -77,7 +77,7 @@ const FarmerAddToProductList = () => {
       >
         Sign Out
       </button>
-      <form className="flex m-8 px-4 py-2 justify-center">
+      <form className="flex m-8 px-4 py-2 justify-center" onSubmit={saveToDB}>
         <label>
           Product <br></br>
           <input
@@ -125,7 +125,6 @@ const FarmerAddToProductList = () => {
           type="submit"
           className="text-sm m-2 px-4 py-2 text-font-middle
             rounded-3xl bg-[#FE8C06] text-[#ffff]"
-          onClick={saveToDB}
         >
           Add to List
         </button>

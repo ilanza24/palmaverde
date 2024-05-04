@@ -52,7 +52,12 @@ function FarmerUpdateProduct({
 
     async function deleteProduct(farmerProductRf) {
       try {
-        await remove(farmerProductRf);
+        await remove(farmerProductRf, {
+          productName: productNameToUpdate,
+          quantity: qtyToUpdate,
+          price: priceToUpdate,
+          unit: unitToUpdate,
+        });
         toast(`${productName} product is removed as quantity is zero.`);
         handleCancel();
       } catch (e) {
@@ -95,7 +100,7 @@ function FarmerUpdateProduct({
             color: "white",
           }}
         >
-          <form className="flex m-8 justify-center">
+          <form className="flex m-8 justify-center" onSubmit={handleSaveToDB}>
             <label>
               Product <br></br>
               <input
@@ -143,11 +148,12 @@ function FarmerUpdateProduct({
               type="submit"
               className="font-body text-sm m-2 px-4 py-2 text-font-middle 
             rounded-3xl bg-[#FE8C06] transition ease-in-out focus:border-[#FEFDFC] "
-              onClick={handleSaveToDB}
             >
               Update
             </button>
-            <button onClick={() => handleCancel}> Cancel</button>
+            <button type="button" onClick={() => handleCancel()}>
+              Cancel
+            </button>
           </form>
         </Modal>
       }
