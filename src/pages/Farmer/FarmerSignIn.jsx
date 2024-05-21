@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { assets } from "../assets";
+import { assets } from "../../assets";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 //import OAuth from "../components/OAuth";
 import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
 import { toast } from "react-toastify";
-import SignInUp from "../components/SignInUp";
+import FarmerSignInUp from "../../components/Farmer/FarmerSignInUp";
 
-function SignIn() {
+function FarmerSignIn() {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -35,7 +35,8 @@ function SignIn() {
         password
       );
       if (userCredential.user) {
-        navigate("/upload-product");
+        const userId = auth.currentUser.uid;
+        navigate(`/farmer-manage-inventory/${userId}`);
       }
     } catch (error) {
       console.log("sign", error);
@@ -45,9 +46,11 @@ function SignIn() {
 
   return (
     <section className="bg-primary">
+      <h1>Farmer SignIn</h1>
       <div className="flex justify-around items-center py-4 mb-8 max-w-[30rem] mx-auto">
         <h2 className="font-body text-5xl font-semibold p-4 text-font-light">
           Sign <br />
+          In
         </h2>
         <img
           className="w-[10rem] drop-shadow-md"
@@ -57,7 +60,7 @@ function SignIn() {
       </div>
 
       <div className="bg-font-light rounded-t-[1.85rem] px-6 py-12">
-        <SignInUp />
+        <FarmerSignInUp />
         <div className="max-w-[30rem] mx-auto">
           <form onSubmit={onSubmit}>
             <div className="mb-6">
@@ -148,4 +151,4 @@ function SignIn() {
   );
 }
 
-export default SignIn;
+export default FarmerSignIn;

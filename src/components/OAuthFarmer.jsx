@@ -1,21 +1,20 @@
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
-import { GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth';
-import { db } from '../config/firebase';
+import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
+import { db } from "../config/firebase";
 import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
 function OAuthFarmer() {
   const navigate = useNavigate();
 
-  async function onGoogleClick(){
+  async function onGoogleClick() {
     try {
       const auth = getAuth();
-      const provider = new 
-      GoogleAuthProvider()
-      const result = await signInWithPopup(auth, provider)
-      const user = result.user
-      // check for the user 
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      // check for the user
       const docRef = doc(db, "users", user.uid);
       const docSnap = await getDoc(docRef);
 
@@ -29,19 +28,19 @@ function OAuthFarmer() {
       navigate("/farmer-profil");
     } catch (error) {
       toast.error("Could not authorize with Google");
-      
     }
   }
   return (
     <div className="flex justify-center items-center">
-        <button 
-          type="button"
-          onClick={onGoogleClick}
-          className="rounded-full drop-shadow-2xl shadow-gray-500/50">
-            <FcGoogle size={35} className="drop-shadow-sm"/>
-        </button>
+      <button
+        type="button"
+        onClick={onGoogleClick}
+        className="rounded-full drop-shadow-2xl shadow-gray-500/50"
+      >
+        <FcGoogle size={35} className="drop-shadow-sm" />
+      </button>
     </div>
-  )
+  );
 }
 
-export default OAuthFarmer
+export default OAuthFarmer;

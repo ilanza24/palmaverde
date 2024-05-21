@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 
-function SignInUp() {
+function FarmerSignInUp() {
   const [activeButton, setActiveButton] = useState("");
 
   return (
     <div className="max-w-[30rem] mx-auto mb-6">
       <div className="button-green flex justify-between items-center">
         <NavLink
-          to="/sign-up"
+          to="/farmer-sign-up"
           className={`toggle-button ${
             activeButton === "signUp" ? "active" : "inactive"
           }`}
@@ -18,7 +18,7 @@ function SignInUp() {
         </NavLink>
 
         <NavLink
-          to="/sign-in"
+          to="/farmer-sign-in"
           className={`toggle-button ${
             activeButton === "signIn" ? "active" : "inactive"
           }`}
@@ -31,4 +31,4 @@ function SignInUp() {
   );
 }
 
-export default SignInUp;
+export default FarmerSignInUp;
