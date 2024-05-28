@@ -1,71 +1,50 @@
-# Getting Started with Create React App
+# PalmaVerde
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+PalmaVerde is an app that connects farmers and customers by allowing farmers to update product listings and providing customers with a clear weekly product list.
 
-## Available Scripts
+## First Phase:
 
-In the project directory, you can run:
+### Planned Features
 
-### `npm start`
+#### Register as a Farmer
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Display lists of added vegetable products with details such as quantity and price.
+- Allow farmers to update product details.
+- Enable addition and removal of vegetable listings.
+- Implement user authentication with login/logout functionality.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+#### Register as a Customer
 
-### `npm test`
+- Provide user authentication with login/logout functionality.
+- Display lists of all available vegetable products with details such as quantity and price.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Screenshots
 
-### `npm run build`
+## Technologies Used
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- React
+- Tailwind CSS
+- JavaScript
+- Firestore (cloud database for storing product details)
+- Firebase Realtime Database (for storing user details)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Installation
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. Clone the repository.
+2. Navigate to the project directory in the terminal.
+3. Run `npm install` to install the necessary dependencies.
+4. Add Firebase configuration (including API keys and project settings) required during the development process.
 
-### `npm run eject`
+## Development Server
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Run `npm start` for a development server. Navigate to `http://localhost:3000/`.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Contributions
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Contributions to the PalmaVerde application are always welcome.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+If you have any suggestions, improvements, or bug fixes, please feel free to submit a pull request.
 
-## Learn More
+## Feedback ![Ask Us Anything !](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# Palma-Verde
+If you have any feedback, please reach out to us at ilanokno@gmail.com.
