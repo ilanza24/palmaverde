@@ -8,14 +8,13 @@ PalmaVerde is an app that connects farmers and customers by allowing farmers to 
 
 #### Register as a Farmer
 
-- Display lists of added vegetable products with details such as quantity and price.
-- Allow farmers to update product details.
-- Enable addition and removal of vegetable listings.
-- Implement user authentication with login/logout functionality.
+- Implement user authentication with SignUp/login and logout functionality.
+- Allow farmers to add/update/remove product.
+- Display lists of added products with details such as quantity and price.
 
 #### Register as a Customer
 
-- Provide user authentication with login/logout functionality.
+- Implement user authentication with SignUp/login and logout functionality.
 - Display lists of all available vegetable products with details such as quantity and price.
 
 ## Screenshots
