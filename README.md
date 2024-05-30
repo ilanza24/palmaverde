@@ -18,6 +18,8 @@ PalmaVerde is an app that connects farmers and customers by allowing farmers to 
 - Display lists of all available vegetable products with details such as quantity and price.
 
 ## Screenshots
+<img width="350" alt="Screenshot 2024-05-30 at 12 52 22" src="https://github.com/ilanza24/palmaverde/assets/71315276/06478a6e-9260-423c-8345-d5d038a625de">
+<img width="250" alt="palmaverda4" src="https://github.com/ilanza24/palmaverde/assets/71315276/6fbc389b-1c0a-4735-bdff-8d90eb59f4e7">
 
 ## Technologies Used
 
