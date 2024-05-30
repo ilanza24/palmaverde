@@ -1,11 +1,11 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Home from "./pages/Home";
-import SignIn from "./pages/SignIn";
-import SignUp from "./pages/SignUp";
+import CustomerSignIn from "./pages/Customer/CustomerSignIn";
+import CustomerSignUp from "./pages/Customer/CustomerSignUp";
 import ForgotPassword from "./pages/ForgotPassword";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import UploadProduct from "./pages/UploadProduct";
+import CustomerListOFProduct from "./pages/Customer/CustomerListOFProduct.jsx";
 import FarmerInventoryManager from "./pages/Farmer/FarmerInventoryManager";
 import FarmerSignUp from "./pages/Farmer/FarmerSignUp";
 import FarmerSignIn from "./pages/Farmer/FarmerSignIn";
@@ -16,10 +16,13 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/sign-in" element={<SignIn />} />
-          <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/customer-sign-in" element={<CustomerSignIn />} />
+          <Route path="/customer-sign-up" element={<CustomerSignUp />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/upload-product" element={<UploadProduct />} />
+          <Route
+            path="/customer-list-product"
+            element={<CustomerListOFProduct />}
+          />
           <Route
             path="/farmer-manage-inventory/:userId"
             element={<FarmerInventoryManager />}

@@ -8,7 +8,7 @@ function SignInUp() {
     <div className="max-w-[30rem] mx-auto mb-6">
       <div className="button-green flex justify-between items-center">
         <NavLink
-          to="/sign-up"
+          to="/customer-sign-up"
           className={`toggle-button ${
             activeButton === "signUp" ? "active" : "inactive"
           }`}
@@ -18,7 +18,7 @@ function SignInUp() {
         </NavLink>
 
         <NavLink
-          to="/sign-in"
+          to="/customer-sign-in"
           className={`toggle-button ${
             activeButton === "signIn" ? "active" : "inactive"
           }`}

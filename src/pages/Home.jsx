@@ -23,7 +23,7 @@ function Home() {
             <Link to="/farmer-sign-up">
               <button className="button-orange">Farmer</button>
             </Link>
-            <Link to="/sign-up">
+            <Link to="/customer-sign-up">
               <button className="button-transparent">Customer</button>
             </Link>
           </div>
