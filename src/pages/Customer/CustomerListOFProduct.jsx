@@ -1,40 +1,37 @@
 import React, { useState } from "react";
+import { getDatabase, ref, child, get, onValue } from "firebase/database";
+import app from "../../config/firebase";
 
 function CustomerListProduct() {
-  const [formData, setFormData] = useState({
-    product: "",
-    description: "",
-  });
-  const { product, description } = formData;
-  function onChange() {}
+  const getData = () => {
+    const dbRef = ref(getDatabase(app));
+    get(child(dbRef, `Farmers`))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          console.log(snapshot.val());
+        } else {
+          console.log("No data available");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  getData();
   return (
-    <div>
-      <main className="max-w-md px-2 mx-auto font-body">
-        <h1 className="text-xl mt-6 text-font">Upload Product</h1>
-        <form className="my-6">
-          <p className="pb-2">Product</p>
-          <input
-            type="text"
-            id="product"
-            value={product}
-            onChange={onChange}
-            placeholder="product name"
-            className="w-full text-sm px-4 py-2 text-font-middle rounded-3xl bg-[#FEFDFC] 
-            transition duration-150 ease-in-out mb-6 focus:border-[#FEFDFC]"
-          />
-          <p className="pb-2">Description</p>
-          <textarea
-            name="description"
-            id="description"
-            value={description}
-            onChange={onChange}
-            rows="5"
-            placeholder="product description"
-            className="w-full text-font-middle rounded-3xl bg-[#FEFDFC] transition duration-150 
-            ease-in-out mb-6 focus:border-[#FEFDFC]"
-          ></textarea>
-        </form>
-      </main>
+    <div style={{ display: "flex", flexDirection: "row" }}>
+      <ul style={{ padding: "5px" }}>
+        Fruits
+        <li>Apple</li>
+        <li>Mango</li>
+        <li>Orange</li>
+      </ul>
+      <ul style={{ padding: "5px", fontWeight: "bold" }}>
+        Vegetables
+        <li>Pea</li>
+        <li>Cauliflower</li>
+        <li>Pepper</li>
+      </ul>
     </div>
   );
 }
