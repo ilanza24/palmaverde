@@ -1,23 +1,37 @@
-import React, { useState } from "react";
-import { getDatabase, ref, child, get, onValue } from "firebase/database";
+import React, { useState, useEffect } from "react";
+import { getDatabase, ref, child, get, onValue, off } from "firebase/database";
 import app from "../../config/firebase";
 
 function CustomerListProduct() {
-  const getData = () => {
+  const [listOfVegetables, setListOfVegetables] = useState([]);
+  var farmerUuid = [];
+  const getData = async () => {
     const dbRef = ref(getDatabase(app));
-    get(child(dbRef, `Farmers`))
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          console.log(snapshot.val());
-        } else {
-          console.log("No data available");
-        }
-      })
-      .catch((error) => {
-        console.error(error);
+    var farmerSnapshot = await get(child(dbRef, `Farmers`));
+
+    farmerSnapshot.forEach((snapshotProducts) => {
+      farmerUuid.push(snapshotProducts.key);
+    });
+
+    if (farmerUuid.length > 0) {
+      //to get products of first farmer
+      var productRef = child(dbRef, `Farmers/${farmerUuid[0]}/Products`);
+      const unSubscribe = onValue(productRef, (productSnapshot) => {
+        productSnapshot.forEach((productsSnapShot) => {
+          setListOfVegetables(productsSnapShot.val());
+        });
       });
+
+      return () => {
+        off(productRef, unSubscribe); // Remove the listener when the component unmounts
+      };
+    }
   };
-  getData();
+  useEffect(() => {
+    getData();
+    console.log("listOfVegetables", listOfVegetables);
+  }, []);
+  //list vegetables in list through listOfVegetables.price, listOfVegetables.productName
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <ul style={{ padding: "5px" }}>
